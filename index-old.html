@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Key Generator</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4">Answer Key Generator</h1>
+
+    <form onsubmit="generateAnswerKey(); return false;" class="mt-4">
+        <h2>Physics (50 Questions)</h2>
+        <div id="physics-questions"></div>
+
+        <h2>Chemistry (50 Questions)</h2>
+        <div id="chemistry-questions"></div>
+
+        <h2>Biology (100 Questions)</h2>
+        <div id="biology-questions"></div>
+
+        <button type="submit" class="btn btn-primary mt-3">Generate Answer Key</button>
+    </form>
+
+    <div id="answer-key" class="mt-4"></div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function generateQuestions(subject, numQuestions) {
+        const container = document.getElementById(`${subject}-questions`);
+        for (let i = 1; i <= numQuestions; i++) {
+            const questionDiv = document.createElement('div');
+            questionDiv.innerHTML = `
+                <label for="${subject}-${i}">Question ${i}:</label>
+                <input type="text" id="${subject}-${i}" name="${subject}-${i}" class="form-control" pattern="[a-dA-D]" required>
+                <br>
+            `;
+            container.appendChild(questionDiv);
+        }
+    }
+
+    function generateAnswerKey() {
+        const subjects = ['physics', 'chemistry', 'biology'];
+        let answerTable = '<h1 class="mt-4">Answer Key</h1><table class="table table-bordered mt-3"><tr><th>Subject</th><th>Question</th><th>Answer</th></tr>';
+
+        subjects.forEach(subject => {
+            const numQuestions = (subject === 'biology') ? 10 : 5;
+            for (let i = 1; i <= numQuestions; i++) {
+                const answer = document.getElementById(`${subject}-${i}`).value.toUpperCase();
+                answerTable += `<tr><td>${subject}</td><td>${i}</td><td>${answer}</td></tr>`;
+            }
+        });
+
+        answerTable += '</table>';
+        document.getElementById('answer-key').innerHTML = answerTable;
+    }
+
+    generateQuestions('physics', 5);
+    generateQuestions('chemistry', 5);
+    generateQuestions('biology', 10);
+</script>
+
+</body>
+</html>
