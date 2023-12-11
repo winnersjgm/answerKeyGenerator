@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JENPAS Answer Key Generator</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4">JENPAS Answer Key Generator</h1>
+
+    <form onsubmit="generateAnswerKey(); return false;" class="mt-4">
+        <h2>Physics (15 MCQs + 5 MSQs)</h2>
+        <div id="Physics-category-1"></div>
+        <div id="Physics-category-2"></div>
+
+        <h2>Chemistry (15 MCQs + 5 MSQs)</h2>
+        <div id="Chemistry-category-1"></div>
+        <div id="Chemistry-category-2"></div>
+
+        <h2>Biology (15 MCQs + 5 MSQs)</h2>
+        <div id="Biology-category-1"></div>
+        <div id="Biology-category-2"></div>
+
+        <h2>Logical Reasoning (15 MCQs + 5 MSQs)</h2>
+        <div id="LogicalReasoning-category-1"></div>
+        <div id="LogicalReasoning-category-2"></div>
+
+        <h2>English (15 MCQs + 5 MSQs)</h2>
+        <div id="English-category-1"></div>
+        <div id="English-category-2"></div>
+
+        <button type="submit" class="btn btn-primary mt-3">Generate Answer Key</button>
+    </form>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function generateQuestions(subject, category, numQuestions, isMSQ) {
+        const container = document.getElementById(`${subject}-${category}`);
+        for (let i = 1; i <= numQuestions; i++) {
+            const questionDiv = document.createElement('div');
+            questionDiv.innerHTML = `
+                <label for="${subject}-${category}-${i}">Question ${i}:</label>
+                <input type="text" id="${subject}-${category}-${i}" name="${subject}-${category}-${i}" class="form-control" pattern="${isMSQ ? '[a-eA-E,]+' : '[a-eA-E]'}" required>
+                <br>
+            `;
+            container.appendChild(questionDiv);
+        }
+    }
+
+    function generateAnswerKey() {
+        const subjects = ['Physics', 'Chemistry', 'Biology', 'LogicalReasoning', 'English'];
+        let answers = {};
+
+        subjects.forEach(subject => {
+            answers[subject] = {
+                'category-1': [],
+                'category-2': []
+            };
+
+            // Generate answers for Category 1
+            for (let i = 1; i <= 15; i++) {
+                const answer = document.getElementById(`${subject}-category-1-${i}`).value.toUpperCase();
+                answers[subject]['category-1'].push(answer);
+            }
+
+            // Generate answers for Category 2
+            for (let i = 1; i <= 5; i++) {
+                const answer = document.getElementById(`${subject}-category-2-${i}`).value.toUpperCase();
+                answers[subject]['category-2'].push(answer);
+            }
+        });
+
+        const encodedAnswers = encodeURIComponent(JSON.stringify(answers));
+        window.location.href = `answer-jenpas.html?answers=${encodedAnswers}`;
+    }
+
+    generateQuestions('Physics', 'category-1', 15, false);
+    generateQuestions('Physics', 'category-2', 5, true);
+    generateQuestions('Chemistry', 'category-1', 15, false);
+    generateQuestions('Chemistry', 'category-2', 5, true);
+    generateQuestions('Biology', 'category-1', 15, false);
+    generateQuestions('Biology', 'category-2', 5, true);
+    generateQuestions('LogicalReasoning', 'category-1', 15, false);
+    generateQuestions('LogicalReasoning', 'category-2', 5, true);
+    generateQuestions('English', 'category-1', 15, false);
+    generateQuestions('English', 'category-2', 5, true);
+</script>
+
+</body>
+</html>

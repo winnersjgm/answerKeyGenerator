@@ -3,47 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Answer Key Generator</title>
+    <title>Answer Key Generator Menu</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+        header img {
+            max-width: 100px;
+            height: auto;
+            background-color: #fff;
+        }
+        .menu-container {
+            max-width: 800px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        .card-body {
             padding: 20px;
-           
+            text-align: center;
         }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s;
         }
-        th {
-            background-color: #f2f2f2;
+        .btn-primary:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 class="mt-4">Answer Key Generator</h1>
+<header>
+    <img src="logo_wnrs.png" alt="Logo">
+    <h1>Winners Answer Key Generator Menu</h1>
+</header>
 
-    <form onsubmit="generateAnswerKey(); return false;" class="mt-4">
-        <h2>Physics (50 Questions)</h2>
-        <div id="Physics-questions"></div>
+<div class="menu-container">
+    <!-- JEE Exam Card -->
+    <div class="card" onmouseover="hoverEffect(this)" onmouseout="hoverEffect(this)" onclick="navigateTo('jee/jee.html')">
+        <div class="card-body">
+            <div class="card-title">JEE Exam</div>
+            <button class="btn btn-primary">Generate Answer Key</button>
+        </div>
+    </div>
 
-        <h2>Chemistry (50 Questions)</h2>
-        <div id="Chemistry-questions"></div>
+    <!-- NEET Exam Card -->
+    <div class="card" onmouseover="hoverEffect(this)" onmouseout="hoverEffect(this)" onclick="navigateTo('neet/neet.html')">
+        <div class="card-body">
+            <div class="card-title">NEET Exam</div>
+            <button class="btn btn-primary">Generate Answer Key</button>
+        </div>
+    </div>
 
-        <h2>Biology (150 Questions)</h2>
-        <div id="Biology-questions"></div>
-
-        <button type="submit" class="btn btn-primary mt-3">Generate Answer Key</button>
-    </form>
+    <!-- JENPAS-UG Exam Card -->
+    <div class="card" onmouseover="hoverEffect(this)" onmouseout="hoverEffect(this)" onclick="navigateTo('jenpas/jenpas.html')">
+        <div class="card-body">
+            <div class="card-title">JENPAS-UG Exam</div>
+            <button class="btn btn-primary">Generate Answer Key</button>
+        </div>
+    </div>
 </div>
 
 <!-- Add Bootstrap JS and Popper.js -->
@@ -52,39 +105,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    function generateQuestions(subject, numQuestions) {
-        const container = document.getElementById(`${subject}-questions`);
-        for (let i = 1; i <= numQuestions; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.innerHTML = `
-                <label for="${subject}-${i}">Question ${i}:</label>
-                <input type="text" id="${subject}-${i}" name="${subject}-${i}" class="form-control" pattern="[a-dA-D]" required>
-                <br>
-            `;
-            container.appendChild(questionDiv);
-        }
+    function navigateTo(page) {
+        window.location.href = page;
     }
 
-    function generateAnswerKey() {
-        const subjects = ['Physics', 'Chemistry', 'Biology'];
-        let answers = {};
-
-        subjects.forEach(subject => {
-            const numQuestions = (subject === 'Biology') ? 100 : 50;
-            answers[subject] = [];
-            for (let i = 1; i <= numQuestions; i++) {
-                const answer = document.getElementById(`${subject}-${i}`).value.toUpperCase();
-                answers[subject].push(answer);
-            }
-        });
-
-        const encodedAnswers = encodeURIComponent(JSON.stringify(answers));
-        window.location.href = `answer-page.html?answers=${encodedAnswers}`;
+    function hoverEffect(card) {
+        card.classList.toggle("hovered");
     }
-
-    generateQuestions('Physics', 50);
-    generateQuestions('Chemistry', 50);
-    generateQuestions('Biology', 100);
 </script>
 
 </body>

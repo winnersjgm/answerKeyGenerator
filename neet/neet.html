@@ -10,6 +10,7 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
+           
         }
         table {
             border-collapse: collapse;
@@ -33,18 +34,16 @@
 
     <form onsubmit="generateAnswerKey(); return false;" class="mt-4">
         <h2>Physics (50 Questions)</h2>
-        <div id="physics-questions"></div>
+        <div id="Physics-questions"></div>
 
         <h2>Chemistry (50 Questions)</h2>
-        <div id="chemistry-questions"></div>
+        <div id="Chemistry-questions"></div>
 
-        <h2>Biology (100 Questions)</h2>
-        <div id="biology-questions"></div>
+        <h2>Biology (150 Questions)</h2>
+        <div id="Biology-questions"></div>
 
         <button type="submit" class="btn btn-primary mt-3">Generate Answer Key</button>
     </form>
-
-    <div id="answer-key" class="mt-4"></div>
 </div>
 
 <!-- Add Bootstrap JS and Popper.js -->
@@ -67,24 +66,25 @@
     }
 
     function generateAnswerKey() {
-        const subjects = ['physics', 'chemistry', 'biology'];
-        let answerTable = '<h1 class="mt-4">Answer Key</h1><table class="table table-bordered mt-3"><tr><th>Subject</th><th>Question</th><th>Answer</th></tr>';
+        const subjects = ['Physics', 'Chemistry', 'Biology'];
+        let answers = {};
 
         subjects.forEach(subject => {
-            const numQuestions = (subject === 'biology') ? 10 : 5;
+            const numQuestions = (subject === 'Biology') ? 100 : 50;
+            answers[subject] = [];
             for (let i = 1; i <= numQuestions; i++) {
                 const answer = document.getElementById(`${subject}-${i}`).value.toUpperCase();
-                answerTable += `<tr><td>${subject}</td><td>${i}</td><td>${answer}</td></tr>`;
+                answers[subject].push(answer);
             }
         });
 
-        answerTable += '</table>';
-        document.getElementById('answer-key').innerHTML = answerTable;
+        const encodedAnswers = encodeURIComponent(JSON.stringify(answers));
+        window.location.href = `answer-neet.html?answers=${encodedAnswers}`;
     }
 
-    generateQuestions('physics', 5);
-    generateQuestions('chemistry', 5);
-    generateQuestions('biology', 10);
+    generateQuestions('Physics', 50);
+    generateQuestions('Chemistry', 50);
+    generateQuestions('Biology', 100);
 </script>
 
 </body>

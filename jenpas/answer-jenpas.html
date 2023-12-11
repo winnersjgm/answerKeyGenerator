@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Key</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4">Answer Key</h1>
+
+    <div id="answer-key"></div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function displayAnswers() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const encodedAnswers = urlParams.get('answers');
+        const decodedAnswers = JSON.parse(decodeURIComponent(encodedAnswers));
+
+        let answerTable = '<table class="table table-bordered mt-3">';
+
+        for (const subject in decodedAnswers) {
+            answerTable += `<tr><th colspan="3">${subject}</th></tr>`;
+            let rows = Math.ceil(decodedAnswers[subject]['category-1'].length / 5);
+
+            for (let i = 0; i < rows; i++) {
+                answerTable += '<tr>';
+
+                for (let j = 0; j < 5; j++) {
+                    const index = i * 5 + j;
+                    const questionNumber = index + 1;
+                    answerTable += `<td>Q${questionNumber}: ${decodedAnswers[subject]['category-1'][index]}</td>`;
+                }
+
+                answerTable += '</tr>';
+            }
+
+            answerTable += `<tr><th colspan="3">${subject} - Category 2</th></tr>`;
+            answerTable += '<tr>';
+            decodedAnswers[subject]['category-2'].forEach((answer, i) => {
+                const questionNumber = i + 1;
+                answerTable += `<td>Q${questionNumber}: ${answer}</td>`;
+            });
+            answerTable += '</tr>';
+        }
+
+        answerTable += '</table>';
+        document.getElementById('answer-key').innerHTML = answerTable;
+    }
+
+    displayAnswers();
+</script>
+
+</body>
+</html>
