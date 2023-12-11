@@ -70,7 +70,7 @@
         let answers = {};
 
         subjects.forEach(subject => {
-            const numQuestions = (subject === 'Biology') ? 10 : 5;
+            const numQuestions = (subject === 'Biology') ? 100 : 50;
             answers[subject] = [];
             for (let i = 1; i <= numQuestions; i++) {
                 const answer = document.getElementById(`${subject}-${i}`).value.toUpperCase();
@@ -82,9 +82,9 @@
         window.location.href = `answer-page.html?answers=${encodedAnswers}`;
     }
 
-    generateQuestions('Physics', 5);
-    generateQuestions('Chemistry', 5);
-    generateQuestions('Biology', 10);
+    generateQuestions('Physics', 50);
+    generateQuestions('Chemistry', 50);
+    generateQuestions('Biology', 100);
 </script>
 
 </body>
