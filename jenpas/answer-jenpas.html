@@ -30,6 +30,7 @@
 <body>
 
 <div class="container">
+    <h1 class="mt-4" id="practiceSetNumberPlaceholder"></h1>
     <h1 class="mt-4">Answer Key</h1>
 
     <div id="answer-key"></div>
@@ -46,6 +47,9 @@
         const urlParams = new URLSearchParams(queryString);
         const encodedAnswers = urlParams.get('answers');
         const decodedAnswers = JSON.parse(decodeURIComponent(encodedAnswers));
+        const practiceSetNumber = decodedAnswers['Practice Set Number'];
+        document.getElementById('practiceSetNumberPlaceholder').innerText = `Practice Set Number: ${practiceSetNumber}`;
+
 
         let answerTable = '<table class="table table-bordered mt-3">';
 
